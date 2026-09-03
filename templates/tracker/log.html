@@ -13,21 +13,35 @@
            hx-trigger="input changed delay:400ms, search"
            autocomplete="off" autofocus>
 
-    <div class="input-group mb-3" style="max-width: 22rem;">
+    <div class="input-group mb-4" style="max-width: 24rem;">
       <input class="form-control" type="text" name="barcode" placeholder="…or a barcode">
       <button class="btn btn-outline-secondary" type="button"
               hx-get="{% url 'food_search' %}" hx-target="#search-results"
               hx-include="[name='barcode']">Look up</button>
     </div>
 
-    <div id="search-results"></div>
+    <div id="search-results" class="text-muted">Start typing to search.</div>
   </div>
 
   <div class="col-lg-5">
-    <h2 class="h5">Today · {{ today|date:"D j M" }}</h2>
-    <div id="day-entries">
-      {% include "tracker/_day_entries.html" %}
-    </div>
+    <div class="card"><div class="card-body">
+      <h2 class="h5 mb-3">Today · {{ today|date:"D j M" }}</h2>
+      <div id="day-entries">
+        {% include "tracker/_day_entries.html" %}
+      </div>
+    </div></div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Quick gram presets: a chip sets the grams field in its own form.
+  document.addEventListener("click", (e) => {
+    const chip = e.target.closest(".gram-preset");
+    if (!chip) return;
+    const input = chip.closest("form").querySelector("input[name='grams']");
+    if (input) input.value = chip.dataset.grams;
+  });
+</script>
 {% endblock %}

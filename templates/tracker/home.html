@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center py-5">
-  <h1 class="display-5 fw-semibold">See how your week actually ate</h1>
-  <p class="lead text-muted mx-auto" style="max-width: 40rem;">
+<div class="hero text-center">
+  <h1>See how your week actually ate</h1>
+  <p class="lead mt-3">
     Log what you eat and get a plain weekly picture: how much of it was
     ultra-processed, how varied your plants were, and how your fibre, sugar
     and salt compare to public-health references. No calorie targets, no
@@ -17,22 +17,25 @@
 
 <div class="row g-4 mt-2">
   <div class="col-md-4">
-    <div class="p-4 h-100 rounded-3 bg-body-secondary">
-      <h5>1 · Log a food</h5>
+    <div class="step">
+      <span class="step-n">1</span>
+      <h5>Log a food</h5>
       <p class="mb-0 text-muted">Search by name or enter a barcode. Data comes
         from OpenFoodFacts, including its NOVA and Nutri-Score ratings.</p>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="p-4 h-100 rounded-3 bg-body-secondary">
-      <h5>2 · Add your portion</h5>
-      <p class="mb-0 text-muted">Grams and which meal. That's it — takes a few
-        seconds per item.</p>
+    <div class="step">
+      <span class="step-n">2</span>
+      <h5>Add your portion</h5>
+      <p class="mb-0 text-muted">Grams and which meal. That's it — a few seconds
+        per item.</p>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="p-4 h-100 rounded-3 bg-body-secondary">
-      <h5>3 · Read your week</h5>
+    <div class="step">
+      <span class="step-n">3</span>
+      <h5>Read your week</h5>
       <p class="mb-0 text-muted">A dashboard that turns the log into
         ultra-processed share, plant variety, and fibre / sugar / salt vs.
         references.</p>

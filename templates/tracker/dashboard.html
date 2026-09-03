@@ -17,12 +17,14 @@
 </div>
 
 {% if not report.has_data %}
-  <div class="text-center py-5 bg-body-secondary rounded-3">
-    <p class="mb-3">Nothing logged for this week yet.</p>
-    <a class="btn btn-success" href="{% url 'log' %}">Log some food</a>
+  <div class="text-center py-5 card">
+    <div class="card-body">
+      <p class="mb-3">Nothing logged for this week yet.</p>
+      <a class="btn btn-success" href="{% url 'log' %}">Log some food</a>
+    </div>
   </div>
 {% else %}
-  <p class="text-muted small">
+  <p class="text-muted small mb-4">
     {{ report.entry_count }} item{{ report.entry_count|pluralize }} across
     {{ report.days_logged }} day{{ report.days_logged|pluralize }}.
     Daily figures are averaged over those {{ report.days_logged }} day{{ report.days_logged|pluralize }}.
@@ -30,78 +32,62 @@
 
   <div class="row g-4">
     <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <h2 class="h6 text-muted">Ultra-processed share</h2>
-          {% if report.ultra_processed_pct is None %}
-            <p class="mb-0 text-muted">Not enough calorie data to tell.</p>
-          {% else %}
-            <p class="display-6 mb-1">{{ report.ultra_processed_pct }}%</p>
-            <div class="progress" role="progressbar" style="height: 8px;">
-              <div class="progress-bar bg-danger" style="width: {{ report.ultra_processed_pct }}%"></div>
-            </div>
-            <p class="small text-muted mt-2 mb-0">
-              of your logged calories came from NOVA group 4 foods (packaged snacks,
-              soft drinks, ready meals…). Lower is generally better.
-            </p>
-          {% endif %}
-        </div>
-      </div>
+      <div class="card h-100"><div class="card-body">
+        <div class="metric-label">Ultra-processed share</div>
+        {% if report.ultra_processed_pct is None %}
+          <p class="mb-0 text-muted">Not enough calorie data to tell.</p>
+        {% else %}
+          <div class="metric-value">{{ report.ultra_processed_pct }}<span class="metric-sub">%</span></div>
+          <div class="progress mt-3"><div class="progress-bar bar-bad" style="width: {{ report.ultra_processed_pct }}%"></div></div>
+          <p class="metric-note">
+            of your logged calories came from NOVA group 4 foods (packaged snacks,
+            soft drinks, ready meals…). Lower is generally better.
+          </p>
+        {% endif %}
+      </div></div>
     </div>
 
     <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <h2 class="h6 text-muted">Plant variety</h2>
-          <p class="display-6 mb-1">{{ report.distinct_plants }}
-            <span class="fs-6 text-muted">/ {{ report.plant_target }} target</span></p>
-          <div class="progress mb-2" role="progressbar" style="height: 8px;">
-            <div class="progress-bar bg-success"
-                 style="width: {% widthratio report.distinct_plants report.plant_target 100 %}%"></div>
+      <div class="card h-100"><div class="card-body">
+        <div class="metric-label">Plant variety</div>
+        <div class="metric-value">{{ report.distinct_plants }}<span class="metric-sub"> / {{ report.plant_target }} target</span></div>
+        <div class="progress mt-3 mb-3">
+          <div class="progress-bar bar-ok" style="width: {% widthratio report.distinct_plants report.plant_target 100 %}%"></div>
+        </div>
+        {% for plant in report.plants %}
+          <span class="chip">🌱 {{ plant }}</span>
+        {% empty %}
+          <span class="text-muted small">No whole plant foods recognised yet.</span>
+        {% endfor %}
+      </div></div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card h-100"><div class="card-body">
+        <div class="metric-label">Nutri-Score of what you ate</div>
+        <canvas id="nutriscore-chart" height="150"></canvas>
+      </div></div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card h-100"><div class="card-body">
+        <div class="metric-label mb-3">Per day vs. reference</div>
+        {% for n in report.nutrients %}
+          <div class="nutrient-row">
+            <span>{{ n.label }}</span>
+            <span class="val {% if n.status == 'ok' %}text-ok{% elif n.status == 'low' %}text-warn{% else %}text-bad{% endif %}">
+              {{ n.avg }} g
+              <span class="ref">({{ n.symbol }} {{ n.reference|floatformat:0 }} g · {{ n.pct_of_reference }}%)</span>
+            </span>
           </div>
-          {% for plant in report.plants %}
-            <span class="badge text-bg-light border me-1 mb-1">🌱 {{ plant }}</span>
-          {% empty %}
-            <span class="text-muted small">No whole plant foods recognised yet.</span>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <h2 class="h6 text-muted">Nutri-Score of what you ate</h2>
-          <canvas id="nutriscore-chart" height="140"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <h2 class="h6 text-muted mb-3">Per day vs. reference</h2>
-          {% for n in report.nutrients %}
-            <div class="d-flex justify-content-between">
-              <span>{{ n.label }}</span>
-              <span class="fw-semibold
-                {% if n.status == 'ok' %}text-success{% elif n.status == 'low' %}text-warning{% else %}text-danger{% endif %}">
-                {{ n.avg }} g
-                <span class="text-muted fw-normal small">
-                  ({{ n.symbol }} {{ n.reference|floatformat:0 }} g · {{ n.pct_of_reference }}%)
-                </span>
-              </span>
-            </div>
-            <div class="progress mb-3" role="progressbar" style="height: 6px;">
-              <div class="progress-bar
-                {% if n.status == 'ok' %}bg-success{% elif n.status == 'low' %}bg-warning{% else %}bg-danger{% endif %}"
-                style="width: {{ n.pct_of_reference }}%; max-width: 100%;"></div>
-            </div>
-          {% endfor %}
-          <p class="small text-muted mb-0">Sugars is total sugars from the product
-            data, which includes natural sugars — read it as a rough signal.</p>
-        </div>
-      </div>
+          <div class="progress mb-3">
+            <div class="progress-bar {% if n.status == 'ok' %}bar-ok{% elif n.status == 'low' %}bar-warn{% else %}bar-bad{% endif %}"
+                 style="width: {{ n.pct_of_reference }}%; max-width: 100%;"></div>
+          </div>
+        {% endfor %}
+        <p class="metric-note">Sugars is total sugars from the product data, which
+          includes natural sugars — read it as a rough signal.</p>
+      </div></div>
     </div>
   </div>
 
@@ -115,16 +101,19 @@
 <script>
   const counts = JSON.parse(document.getElementById("nutriscore-data").textContent);
   const grades = ["a", "b", "c", "d", "e", "unknown"];
-  const colours = ["#2e7d32", "#7cb342", "#fdd835", "#fb8c00", "#e53935", "#bdbdbd"];
+  const colours = ["#1f7a54", "#8bc34a", "#f4c430", "#ef8b1f", "#c0392b", "#c8ccc4"];
   new Chart(document.getElementById("nutriscore-chart"), {
     type: "bar",
     data: {
-      labels: grades.map(g => g.toUpperCase()),
-      datasets: [{ data: grades.map(g => counts[g] || 0), backgroundColor: colours }],
+      labels: ["A", "B", "C", "D", "E", "?"],
+      datasets: [{ data: grades.map(g => counts[g] || 0), backgroundColor: colours, borderRadius: 6 }],
     },
     options: {
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+      scales: {
+        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { display: false } },
+        x: { grid: { display: false } },
+      },
     },
   });
 </script>

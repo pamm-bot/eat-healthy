@@ -1,13 +1,13 @@
 {% if not day_entries %}
-  <p class="text-muted">Nothing logged yet today.</p>
+  <p class="text-muted mb-0">Nothing logged yet today.</p>
 {% else %}
-  <ul class="list-group">
+  <ul class="list-group list-group-flush">
     {% for entry in day_entries %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
+      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
         <span>
           <strong>{{ entry.grams }} g</strong> {{ entry.food.name }}
-          <span class="text-muted small">· {{ entry.get_meal_display }}
-            {% if entry.food.nova_group == 4 %}· <span class="text-danger">ultra-processed</span>{% endif %}
+          <span class="food-meta">· {{ entry.get_meal_display }}
+            {% if entry.food.nova_group == 4 %}· <span class="text-bad">ultra-processed</span>{% endif %}
           </span>
         </span>
         <form method="post" action="{% url 'delete_entry' entry.pk %}"

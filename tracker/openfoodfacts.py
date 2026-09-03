@@ -119,8 +119,16 @@ def plant_key_from_tags(tags):
 
 
 def normalise(product):
-    """Turn a raw OpenFoodFacts product dict into the shape our Food model uses."""
+    """Turn a raw OpenFoodFacts product dict into the shape our Food model uses.
+
+    Returns None for products with no code or no usable name — the API has a
+    lot of those and they only clutter search results.
+    """
     if not product or not product.get("code"):
+        return None
+
+    name = (product.get("product_name") or "").strip()
+    if not name:
         return None
 
     nutriments = product.get("nutriments") or {}
@@ -130,12 +138,14 @@ def normalise(product):
     except (TypeError, ValueError):
         nova = None
 
+    grade = (product.get("nutriscore_grade") or "").strip().lower()[:1]
+
     return {
         "off_code": str(product["code"]),
-        "name": (product.get("product_name") or "").strip() or "Unnamed product",
+        "name": name,
         "brand": (product.get("brands") or "").split(",")[0].strip(),
         "nova_group": nova if nova in (1, 2, 3, 4) else None,
-        "nutriscore_grade": (product.get("nutriscore_grade") or "").strip().lower()[:1],
+        "nutriscore_grade": grade if grade in ("a", "b", "c", "d", "e") else "",
         "energy_kcal": _num(nutriments.get("energy-kcal_100g")),
         "protein_g": _num(nutriments.get("proteins_100g")),
         "fiber_g": _num(nutriments.get("fiber_100g")),
