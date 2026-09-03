@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: eat_healthy
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DEBUG: "True"
+      SECRET_KEY: ci-secret-key
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/eat_healthy
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Check formatting
+        run: black --check .
+
+      - name: Lint
+        run: flake8 .
+
+      - name: Security scan
+        run: bandit -c pyproject.toml -r . -q
+
+      - name: Run database migrations
+        run: python manage.py migrate
+
+      - name: Run tests
+        run: pytest

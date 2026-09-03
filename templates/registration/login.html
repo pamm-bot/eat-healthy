@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Log in · eat healthy{% endblock %}
+
+{% block content %}
+<div class="mx-auto" style="max-width: 24rem;">
+  <h1 class="h3 mb-3">Log in</h1>
+  {% if form.errors %}
+    <div class="alert alert-danger">Wrong username or password.</div>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label" for="id_username">Username</label>
+      <input class="form-control" type="text" name="username" id="id_username" autofocus required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="id_password">Password</label>
+      <input class="form-control" type="password" name="password" id="id_password" required>
+    </div>
+    <button class="btn btn-success w-100">Log in</button>
+  </form>
+  <p class="mt-3 text-muted">No account? <a href="{% url 'signup' %}">Sign up</a></p>
+</div>
+{% endblock %}

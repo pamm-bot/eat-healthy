@@ -1,0 +1,21 @@
+{% if not day_entries %}
+  <p class="text-muted">Nothing logged yet today.</p>
+{% else %}
+  <ul class="list-group">
+    {% for entry in day_entries %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+          <strong>{{ entry.grams }} g</strong> {{ entry.food.name }}
+          <span class="text-muted small">· {{ entry.get_meal_display }}
+            {% if entry.food.nova_group == 4 %}· <span class="text-danger">ultra-processed</span>{% endif %}
+          </span>
+        </span>
+        <form method="post" action="{% url 'delete_entry' entry.pk %}"
+              hx-post="{% url 'delete_entry' entry.pk %}" hx-target="#day-entries">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-link text-muted p-0" aria-label="Remove">&times;</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

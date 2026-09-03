@@ -1,0 +1,7 @@
+[tool.black]
+line-length = 110
+target-version = ["py312"]
+extend-exclude = "migrations/"
+
+[tool.bandit]
+exclude_dirs = ["venv", "tests", "*/tests", "*/migrations"]

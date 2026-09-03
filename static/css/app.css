@@ -1,0 +1,17 @@
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.15rem;
+}
+
+#search-results .list-group-item + .list-group-item {
+  border-top-width: 1px;
+}
+
+.card h2.h6 {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
