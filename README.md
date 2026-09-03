@@ -8,8 +8,8 @@ Log what you eat and get a plain weekly picture of *how* you ate — not calorie
 targets. How much of the week was ultra-processed, how varied your plants were,
 and how your fibre, sugar and salt compare to public-health references.
 
-**Live demo:** _coming soon_ — log in as `demo` / `demo12345` for a
-pre-populated fortnight.
+**Live demo:** https://eat-healthy-pam-a5a77d152949.herokuapp.com/ — log in as
+`demo` / `demo12345` for a pre-populated fortnight.
 
 ## Screenshots
 

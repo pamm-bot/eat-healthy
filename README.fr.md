@@ -9,8 +9,8 @@ mangé sur la semaine — pas d'objectifs caloriques. Quelle part de la semaine
 était ultra-transformée, quelle variété de végétaux, et comment les fibres, le
 sucre et le sel se comparent aux repères de santé publique.
 
-**Démo en ligne :** _bientôt_ — connexion avec `demo` / `demo12345` pour deux
-semaines déjà remplies.
+**Démo en ligne :** https://eat-healthy-pam-a5a77d152949.herokuapp.com/ —
+connexion avec `demo` / `demo12345` pour deux semaines déjà remplies.
 
 ## Captures d'écran
 
