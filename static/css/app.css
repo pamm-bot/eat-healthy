@@ -28,6 +28,18 @@ body {
 a { color: var(--brand-dark); }
 h1, h2, h3, h4 { letter-spacing: -0.01em; }
 
+/* Bootstrap caps .container at 1320px, which leaves the dashboard stranded
+   in a narrow column on a large monitor. Widen it and scale the root font
+   up a little so everything grows with the screen. */
+@media (min-width: 1500px) {
+  .container { max-width: 1440px; }
+  html { font-size: 17px; }
+}
+@media (min-width: 2000px) {
+  .container { max-width: 1640px; }
+  html { font-size: 18px; }
+}
+
 /* ---- navbar ---- */
 .navbar {
   background: var(--surface);
