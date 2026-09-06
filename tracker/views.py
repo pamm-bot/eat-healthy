@@ -102,7 +102,7 @@ def add_entry(request):
                     request, error=_("Couldn't look that product up just now — try again.")
                 ),
             )
-        food, _ = Food.objects.get_or_create(
+        food, _created = Food.objects.get_or_create(
             off_code=off_code,
             defaults={key: value for key, value in product.items() if key != "off_code"},
         )
