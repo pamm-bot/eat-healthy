@@ -6,7 +6,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h1 class="h4 mb-0">{% trans "Your week" %}</h1>
+    <h1 class="h3 mb-0">{% trans "Your week" %}</h1>
     <span class="text-muted">{{ report.start|date:"j M" }} – {{ report.end|date:"j M Y" }}</span>
   </div>
   <div class="btn-group">
@@ -18,7 +18,7 @@
 </div>
 
 {% if not report.has_data %}
-  <div class="text-center py-5 card">
+  <div class="text-center py-5 card card--accent">
     <div class="card-body">
       <p class="mb-3">{% trans "Nothing logged for this week yet." %}</p>
       <a class="btn btn-success" href="{% url 'log' %}">{% trans "Log some food" %}</a>
@@ -40,8 +40,8 @@
 
   <div class="row g-4">
     <div class="col-md-6">
-      <div class="card h-100"><div class="card-body">
-        <div class="metric-label">{% trans "Ultra-processed share" %}</div>
+      <div class="card card--bad h-100"><div class="card-body">
+        <div class="metric-label"><span class="dot"></span>{% trans "Ultra-processed share" %}</div>
         {% if report.ultra_processed_pct is None %}
           <p class="mb-0 text-muted">{% trans "Not enough calorie data to tell." %}</p>
         {% else %}
@@ -58,8 +58,8 @@
     </div>
 
     <div class="col-md-6">
-      <div class="card h-100"><div class="card-body">
-        <div class="metric-label">{% trans "Plant variety" %}</div>
+      <div class="card card--ok h-100"><div class="card-body">
+        <div class="metric-label"><span class="dot"></span>{% trans "Plant variety" %}</div>
         <div class="metric-value">{{ report.distinct_plants }}<span class="metric-sub">{% blocktrans trimmed with target=report.plant_target %} / {{ target }} target{% endblocktrans %}</span></div>
         <div class="progress mt-3 mb-3">
           <div class="progress-bar bar-ok" style="width: {% widthratio report.distinct_plants report.plant_target 100 %}%"></div>
@@ -73,15 +73,15 @@
     </div>
 
     <div class="col-md-6">
-      <div class="card h-100"><div class="card-body">
-        <div class="metric-label">{% trans "Nutri-Score of what you ate" %}</div>
+      <div class="card card--info h-100"><div class="card-body">
+        <div class="metric-label"><span class="dot"></span>{% trans "Nutri-Score of what you ate" %}</div>
         <canvas id="nutriscore-chart" height="150"></canvas>
       </div></div>
     </div>
 
     <div class="col-md-6">
-      <div class="card h-100"><div class="card-body">
-        <div class="metric-label mb-3">{% trans "Per day vs. reference" %}</div>
+      <div class="card card--warn h-100"><div class="card-body">
+        <div class="metric-label mb-3"><span class="dot"></span>{% trans "Per day vs. reference" %}</div>
         {% for n in report.nutrients %}
           <div class="nutrient-row">
             <span>{{ n.label }}</span>

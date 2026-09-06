@@ -11,7 +11,7 @@
         <span>
           <strong>{{ entry.grams }} g</strong> {{ entry.food.name }}
           <span class="food-meta">· {{ entry.get_meal_display }}
-            {% if entry.food.nova_group == 4 %}· <span class="text-bad">{% trans "ultra-processed" %}</span>{% endif %}
+            {% if entry.food.nova_group == 4 %}<span class="pill pill-bad ms-1">{% trans "ultra-processed" %}</span>{% endif %}
           </span>
         </span>
         <form method="post" action="{% url 'delete_entry' entry.pk %}"
