@@ -1,8 +1,9 @@
+{% load i18n %}
 {% if error %}
   <p class="text-bad small mb-2">{{ error }}</p>
 {% endif %}
 {% if not day_entries %}
-  <p class="text-muted mb-0">Nothing logged yet today.</p>
+  <p class="text-muted mb-0">{% trans "Nothing logged yet today." %}</p>
 {% else %}
   <ul class="list-group list-group-flush">
     {% for entry in day_entries %}
@@ -10,13 +11,13 @@
         <span>
           <strong>{{ entry.grams }} g</strong> {{ entry.food.name }}
           <span class="food-meta">· {{ entry.get_meal_display }}
-            {% if entry.food.nova_group == 4 %}· <span class="text-bad">ultra-processed</span>{% endif %}
+            {% if entry.food.nova_group == 4 %}· <span class="text-bad">{% trans "ultra-processed" %}</span>{% endif %}
           </span>
         </span>
         <form method="post" action="{% url 'delete_entry' entry.pk %}"
               hx-post="{% url 'delete_entry' entry.pk %}" hx-target="#day-entries">
           {% csrf_token %}
-          <button class="btn btn-sm btn-link text-muted p-0" aria-label="Remove">&times;</button>
+          <button class="btn btn-sm btn-link text-muted p-0" aria-label="{% trans 'Remove' %}">&times;</button>
         </form>
       </li>
     {% endfor %}

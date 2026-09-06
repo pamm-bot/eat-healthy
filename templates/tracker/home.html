@@ -1,17 +1,20 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div class="hero text-center">
-  <h1>See how your week actually ate</h1>
+  <h1>{% trans "See how your week actually ate" %}</h1>
   <p class="lead mt-3">
-    Log what you eat and get a plain weekly picture: how much of it was
-    ultra-processed, how varied your plants were, and how your fibre, sugar
-    and salt compare to public-health references. No calorie targets, no
-    guilt — just the shape of your week.
+    {% blocktrans trimmed %}
+      Log what you eat and get a plain weekly picture: how much of it was
+      ultra-processed, how varied your plants were, and how your fibre, sugar
+      and salt compare to public-health references. No calorie targets, no
+      guilt — just the shape of your week.
+    {% endblocktrans %}
   </p>
   <div class="d-flex justify-content-center gap-2 mt-4">
-    <a class="btn btn-success btn-lg" href="{% url 'signup' %}">Get started</a>
-    <a class="btn btn-outline-secondary btn-lg" href="{% url 'login' %}">Log in</a>
+    <a class="btn btn-success btn-lg" href="{% url 'signup' %}">{% trans "Get started" %}</a>
+    <a class="btn btn-outline-secondary btn-lg" href="{% url 'login' %}">{% trans "Log in" %}</a>
   </div>
 </div>
 
@@ -19,26 +22,26 @@
   <div class="col-md-4">
     <div class="step">
       <span class="step-n">1</span>
-      <h5>Log a food</h5>
-      <p class="mb-0 text-muted">Search by name or enter a barcode. Data comes
-        from OpenFoodFacts, including its NOVA and Nutri-Score ratings.</p>
+      <h5>{% trans "Log a food" %}</h5>
+      <p class="mb-0 text-muted">{% blocktrans trimmed %}Search by name or enter a barcode. Data comes
+        from OpenFoodFacts, including its NOVA and Nutri-Score ratings.{% endblocktrans %}</p>
     </div>
   </div>
   <div class="col-md-4">
     <div class="step">
       <span class="step-n">2</span>
-      <h5>Add your portion</h5>
-      <p class="mb-0 text-muted">Grams and which meal. That's it — a few seconds
-        per item.</p>
+      <h5>{% trans "Add your portion" %}</h5>
+      <p class="mb-0 text-muted">{% blocktrans trimmed %}Grams and which meal. That's it — a few seconds
+        per item.{% endblocktrans %}</p>
     </div>
   </div>
   <div class="col-md-4">
     <div class="step">
       <span class="step-n">3</span>
-      <h5>Read your week</h5>
-      <p class="mb-0 text-muted">A dashboard that turns the log into
+      <h5>{% trans "Read your week" %}</h5>
+      <p class="mb-0 text-muted">{% blocktrans trimmed %}A dashboard that turns the log into
         ultra-processed share, plant variety, and fibre / sugar / salt vs.
-        references.</p>
+        references.{% endblocktrans %}</p>
     </div>
   </div>
 </div>

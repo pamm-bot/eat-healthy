@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class Food(models.Model):
@@ -12,10 +13,10 @@ class Food(models.Model):
     """
 
     NOVA_CHOICES = [
-        (1, "Unprocessed or minimally processed"),
-        (2, "Processed culinary ingredient"),
-        (3, "Processed food"),
-        (4, "Ultra-processed food"),
+        (1, _("Unprocessed or minimally processed")),
+        (2, _("Processed culinary ingredient")),
+        (3, _("Processed food")),
+        (4, _("Ultra-processed food")),
     ]
 
     off_code = models.CharField("OpenFoodFacts barcode", max_length=64, unique=True)
@@ -60,10 +61,10 @@ class Entry(models.Model):
     """One logged portion of a food, on a date."""
 
     MEALS = [
-        ("breakfast", "Breakfast"),
-        ("lunch", "Lunch"),
-        ("dinner", "Dinner"),
-        ("snack", "Snack"),
+        ("breakfast", _("Breakfast")),
+        ("lunch", _("Lunch")),
+        ("dinner", _("Dinner")),
+        ("snack", _("Snack")),
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="entries")

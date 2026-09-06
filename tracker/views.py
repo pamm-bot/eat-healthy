@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 
@@ -97,7 +98,9 @@ def add_entry(request):
             return render(
                 request,
                 "tracker/_day_entries.html",
-                _log_context(request, error="Couldn't look that product up just now — try again."),
+                _log_context(
+                    request, error=_("Couldn't look that product up just now — try again.")
+                ),
             )
         food, _ = Food.objects.get_or_create(
             off_code=off_code,
@@ -112,7 +115,7 @@ def add_entry(request):
         entry.food = food
         entry.save()
     else:
-        error = "Enter a portion in grams — a whole number, 1 or more."
+        error = _("Enter a portion in grams — a whole number, 1 or more.")
 
     if request.htmx:
         return render(request, "tracker/_day_entries.html", _log_context(request, error=error))

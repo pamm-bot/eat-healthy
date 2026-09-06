@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Dashboard · eat healthy{% endblock %}
+{% block title %}{% trans "Dashboard" %} · {% trans "eat healthy" %}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h1 class="h4 mb-0">Your week</h1>
+    <h1 class="h4 mb-0">{% trans "Your week" %}</h1>
     <span class="text-muted">{{ report.start|date:"j M" }} – {{ report.end|date:"j M Y" }}</span>
   </div>
   <div class="btn-group">
-    <a class="btn btn-outline-secondary btn-sm" href="?week={{ prev_week|date:'Y-m-d' }}">&larr; Previous</a>
+    <a class="btn btn-outline-secondary btn-sm" href="?week={{ prev_week|date:'Y-m-d' }}">&larr; {% trans "Previous" %}</a>
     {% if not is_current_week %}
-      <a class="btn btn-outline-secondary btn-sm" href="?week={{ next_week|date:'Y-m-d' }}">Next &rarr;</a>
+      <a class="btn btn-outline-secondary btn-sm" href="?week={{ next_week|date:'Y-m-d' }}">{% trans "Next" %} &rarr;</a>
     {% endif %}
   </div>
 </div>
@@ -19,29 +20,38 @@
 {% if not report.has_data %}
   <div class="text-center py-5 card">
     <div class="card-body">
-      <p class="mb-3">Nothing logged for this week yet.</p>
-      <a class="btn btn-success" href="{% url 'log' %}">Log some food</a>
+      <p class="mb-3">{% trans "Nothing logged for this week yet." %}</p>
+      <a class="btn btn-success" href="{% url 'log' %}">{% trans "Log some food" %}</a>
     </div>
   </div>
 {% else %}
   <p class="text-muted small mb-4">
-    {{ report.entry_count }} item{{ report.entry_count|pluralize }} across
-    {{ report.days_logged }} day{{ report.days_logged|pluralize }}.
-    Daily figures are averaged over those {{ report.days_logged }} day{{ report.days_logged|pluralize }}.
+    {% blocktrans trimmed count entries=report.entry_count %}
+      {{ entries }} item logged
+    {% plural %}
+      {{ entries }} items logged
+    {% endblocktrans %}
+    {% blocktrans trimmed count days=report.days_logged %}
+      over {{ days }} day. Daily figures are averaged over that day.
+    {% plural %}
+      over {{ days }} days. Daily figures are averaged over those {{ days }} days.
+    {% endblocktrans %}
   </p>
 
   <div class="row g-4">
     <div class="col-md-6">
       <div class="card h-100"><div class="card-body">
-        <div class="metric-label">Ultra-processed share</div>
+        <div class="metric-label">{% trans "Ultra-processed share" %}</div>
         {% if report.ultra_processed_pct is None %}
-          <p class="mb-0 text-muted">Not enough calorie data to tell.</p>
+          <p class="mb-0 text-muted">{% trans "Not enough calorie data to tell." %}</p>
         {% else %}
           <div class="metric-value">{{ report.ultra_processed_pct }}<span class="metric-sub">%</span></div>
           <div class="progress mt-3"><div class="progress-bar bar-bad" style="width: {{ report.ultra_processed_pct }}%"></div></div>
           <p class="metric-note">
-            of your logged calories came from NOVA group 4 foods (packaged snacks,
-            soft drinks, ready meals…). Lower is generally better.
+            {% blocktrans trimmed %}
+              of your logged calories came from NOVA group 4 foods (packaged snacks,
+              soft drinks, ready meals…). Lower is generally better.
+            {% endblocktrans %}
           </p>
         {% endif %}
       </div></div>
@@ -49,29 +59,29 @@
 
     <div class="col-md-6">
       <div class="card h-100"><div class="card-body">
-        <div class="metric-label">Plant variety</div>
-        <div class="metric-value">{{ report.distinct_plants }}<span class="metric-sub"> / {{ report.plant_target }} target</span></div>
+        <div class="metric-label">{% trans "Plant variety" %}</div>
+        <div class="metric-value">{{ report.distinct_plants }}<span class="metric-sub">{% blocktrans trimmed with target=report.plant_target %} / {{ target }} target{% endblocktrans %}</span></div>
         <div class="progress mt-3 mb-3">
           <div class="progress-bar bar-ok" style="width: {% widthratio report.distinct_plants report.plant_target 100 %}%"></div>
         </div>
         {% for plant in report.plants %}
           <span class="chip">🌱 {{ plant }}</span>
         {% empty %}
-          <span class="text-muted small">No whole plant foods recognised yet.</span>
+          <span class="text-muted small">{% trans "No whole plant foods recognised yet." %}</span>
         {% endfor %}
       </div></div>
     </div>
 
     <div class="col-md-6">
       <div class="card h-100"><div class="card-body">
-        <div class="metric-label">Nutri-Score of what you ate</div>
+        <div class="metric-label">{% trans "Nutri-Score of what you ate" %}</div>
         <canvas id="nutriscore-chart" height="150"></canvas>
       </div></div>
     </div>
 
     <div class="col-md-6">
       <div class="card h-100"><div class="card-body">
-        <div class="metric-label mb-3">Per day vs. reference</div>
+        <div class="metric-label mb-3">{% trans "Per day vs. reference" %}</div>
         {% for n in report.nutrients %}
           <div class="nutrient-row">
             <span>{{ n.label }}</span>
@@ -85,8 +95,8 @@
                  style="width: {{ n.pct_of_reference }}%; max-width: 100%;"></div>
           </div>
         {% endfor %}
-        <p class="metric-note">Sugars is total sugars from the product data, which
-          includes natural sugars — read it as a rough signal.</p>
+        <p class="metric-note">{% blocktrans trimmed %}Sugars is total sugars from the product data, which
+          includes natural sugars — read it as a rough signal.{% endblocktrans %}</p>
       </div></div>
     </div>
   </div>

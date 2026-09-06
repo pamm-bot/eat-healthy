@@ -1,0 +1,262 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: eat-healthy\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "eat healthy"
+msgstr "eat healthy"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Log food"
+msgstr "Enregistrer"
+
+msgid "Log out"
+msgstr "Se déconnecter"
+
+msgid "Log in"
+msgstr "Se connecter"
+
+msgid "Sign up"
+msgstr "S'inscrire"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Food data from"
+msgstr "Données alimentaires de"
+
+msgid "See how your week actually ate"
+msgstr "Vois comment ta semaine a vraiment mangé"
+
+msgid "Get started"
+msgstr "Commencer"
+
+msgid "Log a food"
+msgstr "Enregistrer un aliment"
+
+msgid "Add your portion"
+msgstr "Ajoute ta portion"
+
+msgid "Read your week"
+msgstr "Lis ta semaine"
+
+msgid "Your week"
+msgstr "Ta semaine"
+
+msgid "Previous"
+msgstr "Précédente"
+
+msgid "Next"
+msgstr "Suivante"
+
+msgid "Nothing logged for this week yet."
+msgstr "Rien d'enregistré pour cette semaine pour l'instant."
+
+msgid "Log some food"
+msgstr "Enregistre des aliments"
+
+msgid "Ultra-processed share"
+msgstr "Part d'ultra-transformés"
+
+msgid "Not enough calorie data to tell."
+msgstr "Pas assez de données caloriques pour le dire."
+
+msgid "Plant variety"
+msgstr "Variété végétale"
+
+msgid "No whole plant foods recognised yet."
+msgstr "Aucun aliment végétal complet reconnu pour l'instant."
+
+msgid "Nutri-Score of what you ate"
+msgstr "Nutri-Score de ce que tu as mangé"
+
+msgid "Per day vs. reference"
+msgstr "Par jour par rapport à la référence"
+
+msgid "Add a food"
+msgstr "Ajouter un aliment"
+
+msgid "Search a food by name…"
+msgstr "Cherche un aliment par nom…"
+
+msgid "…or a barcode"
+msgstr "…ou un code-barres"
+
+msgid "Look up"
+msgstr "Rechercher"
+
+msgid "Start typing to search."
+msgstr "Commence à taper pour chercher."
+
+msgid "Today"
+msgstr "Aujourd'hui"
+
+msgid "Grams"
+msgstr "Grammes"
+
+msgid "Meal"
+msgstr "Repas"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Nothing logged yet today."
+msgstr "Rien d'enregistré aujourd'hui pour l'instant."
+
+msgid "ultra-processed"
+msgstr "ultra-transformé"
+
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Wrong username or password."
+msgstr "Nom d'utilisateur ou mot de passe incorrect."
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "No account?"
+msgstr "Pas de compte ?"
+
+msgid "Create an account"
+msgstr "Créer un compte"
+
+msgid "Already have one?"
+msgstr "Tu en as déjà un ?"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "Italian"
+msgstr "Italien"
+
+msgid "French"
+msgstr "Français"
+
+msgid "Unprocessed or minimally processed"
+msgstr "Non transformé ou peu transformé"
+
+msgid "Processed culinary ingredient"
+msgstr "Ingrédient culinaire transformé"
+
+msgid "Processed food"
+msgstr "Aliment transformé"
+
+msgid "Ultra-processed food"
+msgstr "Aliment ultra-transformé"
+
+msgid "Breakfast"
+msgstr "Petit-déjeuner"
+
+msgid "Lunch"
+msgstr "Déjeuner"
+
+msgid "Dinner"
+msgstr "Dîner"
+
+msgid "Snack"
+msgstr "Collation"
+
+msgid "Fibre"
+msgstr "Fibres"
+
+msgid "Sugars (total)"
+msgstr "Sucres (totaux)"
+
+msgid "Salt"
+msgstr "Sel"
+
+msgid "Couldn't look that product up just now — try again."
+msgstr "Impossible de trouver ce produit pour le moment — réessaie."
+
+msgid "Enter a portion in grams — a whole number, 1 or more."
+msgstr "Saisis une portion en grammes — un nombre entier, 1 ou plus."
+
+msgid ""
+"General wellness information, not medical or nutritional advice. Reference "
+"values from the WHO and EFSA."
+msgstr ""
+"Informations générales de bien-être, pas un avis médical ou nutritionnel. "
+"Valeurs de référence de l'OMS et de l'EFSA."
+
+msgid ""
+"Log what you eat and get a plain weekly picture: how much of it was ultra-"
+"processed, how varied your plants were, and how your fibre, sugar and salt "
+"compare to public-health references. No calorie targets, no guilt — just the"
+" shape of your week."
+msgstr ""
+"Enregistre ce que tu manges et obtiens une image hebdomadaire claire : "
+"quelle part était ultra-transformée, à quel point tes végétaux étaient "
+"variés, et comment tes fibres, sucres et sel se comparent aux références de "
+"santé publique. Aucun objectif calorique, aucune culpabilité — juste la "
+"forme de ta semaine."
+
+msgid ""
+"Search by name or enter a barcode. Data comes from OpenFoodFacts, including "
+"its NOVA and Nutri-Score ratings."
+msgstr ""
+"Cherche par nom ou saisis un code-barres. Les données viennent "
+"d'OpenFoodFacts, y compris ses notes NOVA et Nutri-Score."
+
+msgid "Grams and which meal. That's it — a few seconds per item."
+msgstr "Grammes et quel repas. C'est tout — quelques secondes par élément."
+
+msgid ""
+"A dashboard that turns the log into ultra-processed share, plant variety, "
+"and fibre / sugar / salt vs. references."
+msgstr ""
+"Un tableau de bord qui transforme le journal en part d'ultra-transformés, "
+"variété végétale et fibres / sucres / sel par rapport aux références."
+
+msgid ""
+"of your logged calories came from NOVA group 4 foods (packaged snacks, soft "
+"drinks, ready meals…). Lower is generally better."
+msgstr ""
+"de tes calories enregistrées venaient d'aliments du groupe NOVA 4 (en-cas "
+"emballés, sodas, plats préparés…). Plus bas, c'est généralement mieux."
+
+msgid "/ %(target)s target"
+msgstr "/ %(target)s objectif"
+
+msgid ""
+"Sugars is total sugars from the product data, which includes natural sugars "
+"— read it as a rough signal."
+msgstr ""
+"Les sucres sont les sucres totaux des données produit, qui incluent les "
+"sucres naturels — à lire comme un signal approximatif."
+
+msgid "No products found for “%(query)s”."
+msgstr "Aucun produit trouvé pour « %(query)s »."
+
+msgid "%(kcal)s kcal/100 g"
+msgstr "%(kcal)s kcal/100 g"
+
+msgid "NOVA %(n)s"
+msgstr "NOVA %(n)s"
+
+msgid "Nutri-Score %(grade)s"
+msgstr "Nutri-Score %(grade)s"
+
+msgid "%(entries)s item logged"
+msgid_plural "%(entries)s items logged"
+msgstr[0] "%(entries)s élément enregistré"
+msgstr[1] "%(entries)s éléments enregistrés"
+
+msgid "over %(days)s day. Daily figures are averaged over that day."
+msgid_plural ""
+"over %(days)s days. Daily figures are averaged over those %(days)s days."
+msgstr[0] "sur %(days)s jour. Les moyennes journalières portent sur ce jour."
+msgstr[1] ""
+"sur %(days)s jours. Les moyennes journalières portent sur ces %(days)s "
+"jours."

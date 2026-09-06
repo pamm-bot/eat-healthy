@@ -16,6 +16,8 @@ Reference values (per day):
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 
+from django.utils.translation import gettext_lazy as _
+
 FIBER_REF = 25.0
 SUGARS_REF = 25.0
 SALT_REF = 5.0
@@ -116,11 +118,11 @@ def build_weekly_report(entries, *, start, end, plant_target=DEFAULT_PLANT_TARGE
     ultra_pct = round(ultra_kcal / known_kcal * 100, 1) if known_kcal else None
 
     nutrients = [
-        NutrientAverage("fiber", "Fibre", round(totals["fiber_g"] / divisor, 1), FIBER_REF, "min"),
+        NutrientAverage("fiber", _("Fibre"), round(totals["fiber_g"] / divisor, 1), FIBER_REF, "min"),
         NutrientAverage(
-            "sugars", "Sugars (total)", round(totals["sugars_g"] / divisor, 1), SUGARS_REF, "max"
+            "sugars", _("Sugars (total)"), round(totals["sugars_g"] / divisor, 1), SUGARS_REF, "max"
         ),
-        NutrientAverage("salt", "Salt", round(totals["salt_g"] / divisor, 1), SALT_REF, "max"),
+        NutrientAverage("salt", _("Salt"), round(totals["salt_g"] / divisor, 1), SALT_REF, "max"),
     ]
 
     return WeeklyDietReport(

@@ -13,5 +13,6 @@ urlpatterns = [
     ),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("accounts/signup/", SignUpView.as_view(), name="signup"),
+    path("i18n/", include("django.conf.urls.i18n")),  # set_language view
     path("", include("tracker.urls")),
 ]
