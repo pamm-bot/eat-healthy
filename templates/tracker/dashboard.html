@@ -32,9 +32,9 @@
       {{ entries }} items logged
     {% endblocktrans %}
     {% blocktrans trimmed count days=report.days_logged %}
-      over {{ days }} day. Daily figures are averaged over that day.
+      over {{ days }} day — figures shown are daily averages.
     {% plural %}
-      over {{ days }} days. Daily figures are averaged over those {{ days }} days.
+      over {{ days }} days — figures shown are daily averages.
     {% endblocktrans %}
   </p>
 
@@ -49,8 +49,8 @@
           <div class="progress mt-3"><div class="progress-bar bar-bad" style="width: {{ report.ultra_processed_pct }}%"></div></div>
           <p class="metric-note">
             {% blocktrans trimmed %}
-              of your logged calories came from NOVA group 4 foods (packaged snacks,
-              soft drinks, ready meals…). Lower is generally better.
+              of logged calories were NOVA group 4 — snacks, soft drinks,
+              ready meals. Lower is better.
             {% endblocktrans %}
           </p>
         {% endif %}
@@ -67,7 +67,7 @@
         {% for plant in report.plants %}
           <span class="chip">🌱 {{ plant }}</span>
         {% empty %}
-          <span class="text-muted small">{% trans "No whole plant foods recognised yet." %}</span>
+          <span class="text-muted small">{% trans "No whole plant foods yet." %}</span>
         {% endfor %}
       </div></div>
     </div>
@@ -95,8 +95,8 @@
                  style="width: {{ n.pct_of_reference }}%; max-width: 100%;"></div>
           </div>
         {% endfor %}
-        <p class="metric-note">{% blocktrans trimmed %}Sugars is total sugars from the product data, which
-          includes natural sugars — read it as a rough signal.{% endblocktrans %}</p>
+        <p class="metric-note">{% blocktrans trimmed %}Total sugars from product data, including
+          natural ones — a rough signal.{% endblocktrans %}</p>
       </div></div>
     </div>
   </div>

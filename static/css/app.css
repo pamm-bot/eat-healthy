@@ -184,6 +184,7 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; font-weight: 800; }
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--muted);
+  margin-left: 0.2rem;
 }
 .metric-note {
   font-size: 0.85rem;
