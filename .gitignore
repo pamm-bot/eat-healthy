@@ -14,3 +14,7 @@ htmlcov/
 .claude/
 .idea/
 .vscode/
+
+# local screenshot tooling (headless-browser deps)
+*.deb
+/root/
