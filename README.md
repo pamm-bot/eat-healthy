@@ -13,9 +13,9 @@ and how your fibre, sugar and salt compare to public-health references.
 
 ## Screenshots
 
-| Weekly dashboard | Logging a food |
-|---|---|
-| [![Dashboard: ultra-processed share, plant variety, Nutri-Score chart, fibre/sugar/salt vs. references](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png) | [![Searching a food, with NOVA and Nutri-Score, and adding a portion](docs/screenshots/log.png)](docs/screenshots/log.png) |
+| Landing | Weekly dashboard | Logging a food |
+|---|---|---|
+| [![The landing page](docs/screenshots/home.png)](docs/screenshots/home.png) | [![Dashboard: ultra-processed share, plant variety, Nutri-Score chart, fibre/sugar/salt vs. references](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png) | [![Searching a food, with NOVA and Nutri-Score, and adding a portion](docs/screenshots/log.png)](docs/screenshots/log.png) |
 
 ## What it does
 
