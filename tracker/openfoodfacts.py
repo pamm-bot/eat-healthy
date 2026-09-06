@@ -10,11 +10,13 @@ import logging
 
 import requests
 from django.conf import settings
+from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://world.openfoodfacts.org"
 TIMEOUT = 6  # seconds, connect + read
+PRODUCT_CACHE_TTL = 60 * 60  # remember a looked-up product for an hour
 FIELDS = "code,product_name,brands,nutriments,nova_group,nutriscore_grade,categories_tags"
 
 # Whole plant foods we recognise for the "how many different plants this week"
@@ -155,6 +157,27 @@ def normalise(product):
     }
 
 
+def _cache_key(off_code):
+    return f"off:product:{off_code}"
+
+
+def remember(product):
+    """Cache a normalised product so a later add_entry can trust it without
+    the browser round-tripping the nutrition fields back to us."""
+    if product and product.get("off_code"):
+        cache.set(_cache_key(product["off_code"]), product, PRODUCT_CACHE_TTL)
+
+
+def resolve(off_code):
+    """Return a normalised product dict for a barcode, from the cache of what
+    we've recently shown this user or a fresh lookup. Never reads caller-
+    supplied nutrition data — that's the whole point."""
+    off_code = (off_code or "").strip()
+    if not off_code:
+        return None
+    return cache.get(_cache_key(off_code)) or get_by_barcode(off_code)
+
+
 def search(query, limit=20):
     """Search products by name. Returns a list of normalised dicts (possibly empty)."""
     query = (query or "").strip()
@@ -179,7 +202,10 @@ def search(query, limit=20):
         logger.warning("OpenFoodFacts search failed for %r: %s", query, exc)
         return []
 
-    return [item for item in (normalise(p) for p in products) if item]
+    results = [item for item in (normalise(p) for p in products) if item]
+    for item in results:
+        remember(item)
+    return results
 
 
 def get_by_barcode(code):
@@ -203,4 +229,7 @@ def get_by_barcode(code):
 
     if payload.get("status") != 1:
         return None
-    return normalise(payload.get("product"))
+
+    product = normalise(payload.get("product"))
+    remember(product)
+    return product

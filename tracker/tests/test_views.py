@@ -46,16 +46,54 @@ def test_food_search_renders_results(client, user):
 
 def test_add_entry_creates_the_food_once_and_logs_the_portion(client, user):
     client.force_login(user)
-    payload = {**PRODUCT, "grams": 80, "meal": "breakfast", "eaten_on": "2026-06-01"}
+    payload = {"off_code": "555", "grams": 80, "meal": "breakfast", "eaten_on": "2026-06-01"}
 
-    client.post(reverse("add_entry"), payload)
-    client.post(reverse("add_entry"), payload)  # same food again
+    with patch("tracker.views.openfoodfacts.resolve", return_value=PRODUCT) as resolve:
+        client.post(reverse("add_entry"), payload)
+        client.post(reverse("add_entry"), payload)  # same food again
 
+    resolve.assert_called_once_with("555")  # second add reuses the cached Food row
     assert Food.objects.filter(off_code="555").count() == 1
     entries = Entry.objects.filter(user=user)
     assert entries.count() == 2
     assert entries.first().grams == 80
     assert entries.first().eaten_on == date(2026, 6, 1)
+
+
+def test_add_entry_ignores_client_supplied_nutrition(client, user):
+    client.force_login(user)
+    tampered = {
+        "off_code": "555",
+        "name": "Free Doughnuts",
+        "energy_kcal": 1,
+        "nova_group": 1,
+        "grams": 100,
+        "meal": "snack",
+        "eaten_on": "2026-06-01",
+    }
+
+    with patch("tracker.views.openfoodfacts.resolve", return_value=PRODUCT):
+        client.post(reverse("add_entry"), tampered)
+
+    food = Food.objects.get(off_code="555")
+    assert food.name == "Rolled Oats"
+    assert food.energy_kcal == 370.0
+    assert food.nova_group == 1
+
+
+def test_add_entry_reports_when_the_product_cannot_be_resolved(client, user):
+    client.force_login(user)
+
+    with patch("tracker.views.openfoodfacts.resolve", return_value=None):
+        response = client.post(
+            reverse("add_entry"),
+            {"off_code": "999", "grams": 100, "meal": "lunch", "eaten_on": "2026-06-01"},
+            HTTP_HX_REQUEST="true",
+        )
+
+    assert response.status_code == 200
+    assert not Food.objects.filter(off_code="999").exists()
+    assert Entry.objects.filter(user=user).count() == 0
 
 
 def test_delete_entry_only_touches_your_own(client, user, make_entry):

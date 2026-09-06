@@ -13,20 +13,6 @@ from .forms import EntryForm, SignUpForm
 from .models import Entry, Food
 from .reports import build_weekly_report, week_bounds
 
-FOOD_FIELDS = (
-    "off_code",
-    "name",
-    "brand",
-    "nova_group",
-    "nutriscore_grade",
-    "energy_kcal",
-    "protein_g",
-    "fiber_g",
-    "sugars_g",
-    "salt_g",
-    "plant_key",
-)
-
 
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -102,29 +88,34 @@ def add_entry(request):
     if not off_code:
         return redirect("log")
 
-    defaults = {}
-    for name in FOOD_FIELDS:
-        if name == "off_code":
-            continue
-        value = request.POST.get(name, "").strip()
-        if name == "nova_group":
-            defaults[name] = int(value) if value.isdigit() else None
-        elif name.endswith("_g") or name == "energy_kcal":
-            defaults[name] = _as_float(value)
-        else:
-            defaults[name] = value
-
-    food, _ = Food.objects.get_or_create(off_code=off_code, defaults=defaults)
+    # The nutrition data is resolved server-side from the barcode, never read
+    # from the POST — the browser only gets to say *which* product and how much.
+    food = Food.objects.filter(off_code=off_code).first()
+    if food is None:
+        product = openfoodfacts.resolve(off_code)
+        if product is None:
+            return render(
+                request,
+                "tracker/_day_entries.html",
+                _log_context(request, error="Couldn't look that product up just now — try again."),
+            )
+        food, _ = Food.objects.get_or_create(
+            off_code=off_code,
+            defaults={key: value for key, value in product.items() if key != "off_code"},
+        )
 
     form = EntryForm(request.POST)
+    error = None
     if form.is_valid():
         entry = form.save(commit=False)
         entry.user = request.user
         entry.food = food
         entry.save()
+    else:
+        error = "Enter a portion in grams — a whole number, 1 or more."
 
     if request.htmx:
-        return render(request, "tracker/_day_entries.html", _log_context(request))
+        return render(request, "tracker/_day_entries.html", _log_context(request, error=error))
     return redirect("log")
 
 
@@ -137,16 +128,9 @@ def delete_entry(request, pk):
     return redirect("log")
 
 
-def _log_context(request):
+def _log_context(request, error=None):
     today = timezone.localdate()
     entries = (
         Entry.objects.filter(user=request.user, eaten_on=today).select_related("food").order_by("created_at")
     )
-    return {"today": today, "day_entries": entries, "form": EntryForm()}
-
-
-def _as_float(value):
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return None
+    return {"today": today, "day_entries": entries, "form": EntryForm(), "error": error}

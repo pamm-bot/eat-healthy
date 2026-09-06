@@ -1,8 +1,18 @@
 import pytest
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.utils import timezone
 
 from tracker.models import Entry, Food
+
+
+@pytest.fixture(autouse=True)
+def clear_cache():
+    """The OpenFoodFacts client caches looked-up products in the Django cache,
+    which LocMemCache keeps between tests. Reset it so they don't leak."""
+    cache.clear()
+    yield
+    cache.clear()
 
 
 @pytest.fixture

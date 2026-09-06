@@ -92,3 +92,24 @@ def test_get_by_barcode_returns_none_when_product_is_missing():
 def test_plant_key_from_tags_picks_the_most_specific_match():
     tags = ["en:legumes", "en:pulses", "en:chickpeas"]
     assert openfoodfacts.plant_key_from_tags(tags) == "chickpea"
+
+
+def test_resolve_uses_the_cache_before_the_network():
+    with patch("tracker.openfoodfacts.requests.get", return_value=FakeResponse(BARCODE_PAYLOAD)):
+        openfoodfacts.get_by_barcode("737628064502")  # populates the cache
+
+    with patch("tracker.openfoodfacts.requests.get", side_effect=AssertionError("network hit")):
+        product = openfoodfacts.resolve("737628064502")
+
+    assert product["name"] == "Instant Noodles"
+
+
+def test_resolve_falls_back_to_a_lookup_when_not_cached():
+    with patch("tracker.openfoodfacts.requests.get", return_value=FakeResponse(BARCODE_PAYLOAD)):
+        product = openfoodfacts.resolve("737628064502")
+
+    assert product["name"] == "Instant Noodles"
+
+
+def test_resolve_returns_none_for_a_blank_code():
+    assert openfoodfacts.resolve("  ") is None

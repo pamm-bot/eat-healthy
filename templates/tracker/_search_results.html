@@ -19,9 +19,7 @@
       <form class="mt-2" method="post" action="{% url 'add_entry' %}"
             hx-post="{% url 'add_entry' %}" hx-target="#day-entries">
         {% csrf_token %}
-        {% for name, value in r.items %}
-          <input type="hidden" name="{{ name }}" value="{{ value|default_if_none:'' }}">
-        {% endfor %}
+        <input type="hidden" name="off_code" value="{{ r.off_code }}">
         <div class="mb-2">
           <span class="gram-preset" data-grams="50">50 g</span>
           <span class="gram-preset" data-grams="100">100 g</span>
