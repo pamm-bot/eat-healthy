@@ -10,7 +10,7 @@ mangé sur la semaine — pas d'objectifs caloriques. Quelle part de la semaine
 sucre et le sel se comparent aux repères de santé publique.
 
 **Démo en ligne :** https://eat-healthy-pam-a5a77d152949.herokuapp.com/ —
-connexion avec `demo` / `demo12345` pour deux semaines déjà remplies.
+connexion avec `demo` / `demo12345` pour un tableau de bord déjà rempli.
 
 ## Captures d'écran
 
@@ -81,13 +81,15 @@ source venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env   # puis renseigner SECRET_KEY, DATABASE_URL
 python manage.py migrate
-python manage.py seed_demo   # optionnel : le compte de démo + deux semaines d'entrées
+python manage.py seed_demo   # optionnel : le compte de démo + trois semaines d'entrées
 python manage.py runserver
 ```
 
-`seed_demo` crée `demo` / `demo12345` avec deux semaines d'entrées codées en
+`seed_demo` crée `demo` / `demo12345` avec trois semaines d'entrées codées en
 dur (aucun réseau requis), pour que le tableau de bord ait quelque chose à
-montrer. La commande peut être relancée sans risque.
+montrer. La commande peut être relancée sans risque — sur Heroku elle tourne
+depuis la commande de release et un job Scheduler quotidien, pour que la démo
+en ligne ne se périme jamais.
 
 ## Tests
 

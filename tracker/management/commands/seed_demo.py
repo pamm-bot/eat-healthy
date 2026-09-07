@@ -1,5 +1,6 @@
-"""Build a demo account with a couple of weeks of realistic entries, so the
-dashboard has something to show. Safe to re-run: it rebuilds this one user.
+"""Build a demo account with three weeks of realistic entries, so the
+dashboard has something to show. Safe to re-run: it rebuilds this one user,
+so it's meant to run on a schedule to keep the demo from going stale.
 
 Foods are hard-coded (not fetched from OpenFoodFacts) so the command works
 offline and in CI.
@@ -52,7 +53,7 @@ PATTERN = {
 
 
 class Command(BaseCommand):
-    help = "Create the demo account with two weeks of sample entries."
+    help = "Create the demo account with three weeks of sample entries."
 
     def handle(self, *args, **options):
         # Only used to shape demo data; not security-sensitive.
@@ -84,7 +85,9 @@ class Command(BaseCommand):
 
         today = timezone.localdate()
         created = 0
-        for day_offset in range(14):
+        # 21 days so the current ISO week is always full, even when a new
+        # week has just started (the dashboard defaults to this week).
+        for day_offset in range(21):
             eaten_on = today - timedelta(days=day_offset)
             for meal, choices in PATTERN.items():
                 for food_index, grams in rng.sample(choices, k=rng.randint(1, 2)):
@@ -99,6 +102,6 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                f"Demo ready: {DEMO_USERNAME} / {DEMO_PASSWORD} — {created} entries over 14 days."
+                f"Demo ready: {DEMO_USERNAME} / {DEMO_PASSWORD} — {created} entries over 21 days."
             )
         )

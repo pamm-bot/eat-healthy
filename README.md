@@ -9,7 +9,7 @@ targets. How much of the week was ultra-processed, how varied your plants were,
 and how your fibre, sugar and salt compare to public-health references.
 
 **Live demo:** https://eat-healthy-pam-a5a77d152949.herokuapp.com/ — log in as
-`demo` / `demo12345` for a pre-populated fortnight.
+`demo` / `demo12345` for a pre-populated dashboard.
 
 ## Screenshots
 
@@ -75,12 +75,14 @@ source venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env   # then set SECRET_KEY, DATABASE_URL
 python manage.py migrate
-python manage.py seed_demo   # optional: the demo account + two weeks of entries
+python manage.py seed_demo   # optional: the demo account + three weeks of entries
 python manage.py runserver
 ```
 
-`seed_demo` creates `demo` / `demo12345` with a fortnight of hard-coded entries
-(no network needed), so the dashboard has something to show. Safe to re-run.
+`seed_demo` creates `demo` / `demo12345` with three weeks of hard-coded entries
+(no network needed), so the dashboard has something to show. Safe to re-run —
+on Heroku it runs from the release command and a daily Scheduler job so the
+live demo never goes stale.
 
 ## Tests
 
