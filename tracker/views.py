@@ -32,14 +32,31 @@ def home(request):
     return render(request, "tracker/home.html")
 
 
+def _logged_days(user, start, end):
+    entries = Entry.objects.filter(user=user, eaten_on__range=(start, end))
+    return entries.values("eaten_on").distinct().count()
+
+
+def _default_week(user, start, end, *, min_days=3, look_back_weeks=8):
+    """The week to open the dashboard on when none was requested: the current
+    week, unless it's nearly empty (the first day or two of a fresh week) —
+    then the most recent earlier week with at least ``min_days`` days logged."""
+    current = (start, end)
+    for _week in range(look_back_weeks + 1):
+        if _logged_days(user, start, end) >= min_days:
+            return start, end
+        start, end = start - timedelta(days=7), end - timedelta(days=7)
+    return current  # nothing better — stay on the current week
+
+
 @login_required
 def dashboard(request):
     try:
         anchor = date.fromisoformat(request.GET["week"])
+        start, end = week_bounds(anchor)
     except (KeyError, ValueError):
-        anchor = timezone.localdate()
+        start, end = _default_week(request.user, *week_bounds(timezone.localdate()))
 
-    start, end = week_bounds(anchor)
     entries = (
         Entry.objects.filter(user=request.user, eaten_on__range=(start, end))
         .select_related("food")
@@ -98,9 +115,7 @@ def add_entry(request):
             return render(
                 request,
                 "tracker/_day_entries.html",
-                _log_context(
-                    request, error=_("Couldn't look that product up just now — try again.")
-                ),
+                _log_context(request, error=_("Couldn't look that product up just now — try again.")),
             )
         food, _created = Food.objects.get_or_create(
             off_code=off_code,

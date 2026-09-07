@@ -1,10 +1,12 @@
-from datetime import date
+from datetime import date, timedelta
 from unittest.mock import patch
 
 import pytest
 from django.urls import reverse
+from django.utils import timezone
 
 from tracker.models import Entry, Food
+from tracker.reports import week_bounds
 
 pytestmark = pytest.mark.django_db
 
@@ -34,6 +36,44 @@ def test_home_redirects_a_logged_in_user_to_the_dashboard(client, user):
     response = client.get(reverse("home"))
     assert response.status_code == 302
     assert response.url == reverse("dashboard")
+
+
+def test_dashboard_falls_back_to_the_last_week_with_data(client, user, make_entry):
+    this_monday = week_bounds(timezone.localdate())[0]
+    last_monday = this_monday - timedelta(days=7)
+    make_entry(eaten_on=this_monday)  # current week: a single thin day
+    for offset in range(3):  # previous week: three distinct days
+        make_entry(eaten_on=last_monday + timedelta(days=offset))
+
+    client.force_login(user)
+    response = client.get(reverse("dashboard"))
+
+    assert response.context["report"].start == last_monday
+    assert response.context["is_current_week"] is False
+    assert response.context["next_week"] == this_monday
+
+
+def test_dashboard_honours_an_explicit_week_even_when_thin(client, user, make_entry):
+    this_monday = week_bounds(timezone.localdate())[0]
+    make_entry(eaten_on=this_monday)
+    for offset in range(3):
+        make_entry(eaten_on=this_monday - timedelta(days=7) + timedelta(days=offset))
+
+    client.force_login(user)
+    response = client.get(reverse("dashboard"), {"week": this_monday.isoformat()})
+
+    assert response.context["report"].start == this_monday
+
+
+def test_dashboard_stays_on_the_current_week_for_a_user_with_no_data(client, user):
+    this_monday = week_bounds(timezone.localdate())[0]
+
+    client.force_login(user)
+    response = client.get(reverse("dashboard"))
+
+    assert response.status_code == 200
+    assert response.context["report"].start == this_monday
+    assert response.context["is_current_week"] is True
 
 
 def test_food_search_renders_results(client, user):
