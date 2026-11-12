@@ -34,7 +34,7 @@ msgid "Food data from"
 msgstr "Données alimentaires de"
 
 msgid "See how your week actually ate"
-msgstr "Vois comment ta semaine a vraiment mangé"
+msgstr "Découvre ce que tu as vraiment mangé cette semaine"
 
 msgid "Get started"
 msgstr "Commencer"
