@@ -10,9 +10,9 @@
     <span class="text-muted">{{ report.start|date:"j M" }} – {{ report.end|date:"j M Y" }}</span>
   </div>
   <div class="btn-group">
-    <a class="btn btn-outline-secondary btn-sm" href="?week={{ prev_week|date:'Y-m-d' }}">&larr; {% trans "Previous" %}</a>
+    <a class="btn btn-outline-secondary btn-sm" href="?week={{ prev_week|date:'Y-m-d' }}">&larr; {% trans "Previous week" %}</a>
     {% if not is_current_week %}
-      <a class="btn btn-outline-secondary btn-sm" href="?week={{ next_week|date:'Y-m-d' }}">{% trans "Next" %} &rarr;</a>
+      <a class="btn btn-outline-secondary btn-sm" href="?week={{ next_week|date:'Y-m-d' }}">{% trans "Next week" %} &rarr;</a>
     {% endif %}
   </div>
 </div>

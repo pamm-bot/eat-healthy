@@ -33,8 +33,8 @@ msgstr "Langue"
 msgid "Food data from"
 msgstr "Données alimentaires de"
 
-msgid "See how your week actually ate"
-msgstr "Vois comment ta semaine a vraiment mangé"
+msgid "See what you actually ate this week"
+msgstr "Découvre ce que tu as vraiment mangé cette semaine"
 
 msgid "Get started"
 msgstr "Commencer"
@@ -46,19 +46,19 @@ msgid "Add your portion"
 msgstr "Ajoute ta portion"
 
 msgid "Read your week"
-msgstr "Lis ta semaine"
+msgstr "Consulte ta semaine"
 
 msgid "Your week"
 msgstr "Ta semaine"
 
-msgid "Previous"
-msgstr "Précédente"
+msgid "Previous week"
+msgstr "Semaine précédente"
 
-msgid "Next"
-msgstr "Suivante"
+msgid "Next week"
+msgstr "Semaine suivante"
 
 msgid "Nothing logged for this week yet."
-msgstr "Rien d'enregistré pour cette semaine pour l'instant."
+msgstr "Rien d'enregistré cette semaine pour l'instant."
 
 msgid "Log some food"
 msgstr "Enregistre des aliments"
@@ -191,7 +191,7 @@ msgid ""
 "Log your meals and see the shape of your week: ultra-processed share, plant "
 "variety, fibre, sugar and salt compared. No targets, no guilt."
 msgstr ""
-"Enregistre tes repas et vois la forme de ta semaine : part d'ultra-"
+"Enregistre tes repas et regarde le bilan de ta semaine : part d'ultra-"
 "transformés, variété végétale, fibres, sucres et sel comparés. Aucun "
 "objectif, aucune culpabilité."
 
